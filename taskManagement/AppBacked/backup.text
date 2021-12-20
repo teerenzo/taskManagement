@@ -1,0 +1,68 @@
+<?php
+
+$con = mysqli_connect("localhost", "root", "", "task_management");
+
+if (isset($_POST['PDF']) && isset($_POST['userId'])) {
+
+    $encodedPDF = $_POST['PDF'];
+    $userId = $_POST['userId'];
+    $project = $_POST['project'];
+    $task = $_POST['task'];
+
+
+
+    $projectlocation = mysqli_fetch_array(mysqli_query($connect, "SELECT `project_path` FROM `project` WHERE `proj_name`='$project'"));
+    $p = $projectlocation[0];
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    // $sel = mysqli_query($con, "SELECT * FROM orders");
+    // $num = mysqli_num_rows($sel);
+    // $pdfTitle = "bank_slip$num";
+
+    $pdfLocation = "$p/$task.zip";
+    // $date = date("d/m/Y");
+
+    file_put_contents($pdfLocation, base64_decode($encodedPDF));
+    // $sqlQuery = "UPDATE  `assigned_tasks` SET=link='$pdfLocation' WHERE ";
+    $result["status"] = TRUE;
+    $result["remarks"] = "document uploaded successfully";
+
+    // if (mysqli_query($con, $sqlQuery)) {
+
+    //     $selectQuery = "SELECT `id` FROM `receipt` WHERE `RN`='$pdfTitle'";
+    //     $receiptId = mysqli_fetch_array(mysqli_query($con, "$selectQuery"));
+    //     mysqli_query($con, "UPDATE `orders` SET `receipt_id`='$receiptId[0]' WHERE `cust_id`='$userId' AND `status`='pending'");
+
+    // file_put_contents($pdfLocation, base64_decode($encodedPDF));
+
+    // $result["status"] = TRUE;
+    // $result["remarks"] = "document uploaded successfully";
+    // } else {
+
+    //     $result["status"] = FALSE;
+    //     $result["remarks"] = "document uploading Failed";
+    // }
+
+    // mysqli_close($connect);
+
+
+} else {
+    $result["status"] = FALSE;
+    $result["remarks"] = "Please select file";
+}
+print(json_encode($result));
